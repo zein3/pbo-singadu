@@ -240,7 +240,7 @@ textarea.form-input {
   position: relative;
 }
 
-.dropdown > ul {
+.dropdown ul {
   display: none;
   flex-direction: column;
   align-items: center;
@@ -254,35 +254,35 @@ textarea.form-input {
   border-radius: 4px;
 }
 
-.dark .dropdown > ul {
+.dark .dropdown ul {
   background-color: var(--neutral-700);
   color: var(--neutral-100);
 }
 
-.dropdown.open > ul {
+.dropdown.open ul {
   display: flex;
 }
 
-.dropdown > ul > li {
+.dropdown ul li {
   margin: 0.7rem 0;
 }
 
-.dropdown > ul > li > a {
+.dropdown ul li a {
   padding: 0.5rem 1.8rem;
   border-radius: 4px;
   color: var(--neutral-900);
   text-decoration: none;
 }
 
-.dark .dropdown > ul > li > a {
+.dark .dropdown ul li a {
   color: var(--neutral-100);
 }
 
-.dropdown > ul > li > a:hover {
+.dropdown ul li a:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.dropdown > ul > li > a:active {
+.dropdown ul li a:active {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
