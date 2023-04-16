@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import net.sytes.zeinhaddad.singadu.entity.User;
 import net.sytes.zeinhaddad.singadu.repository.UserRepository;
@@ -16,6 +16,9 @@ public class SingaduApplication {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SingaduApplication.class, args);
@@ -27,8 +30,8 @@ public class SingaduApplication {
             if (userRepository.count() == 0) {
                 User user = new User();
                 user.setName("Root Account");
-                user.setEmail(env.getProperty("spring.security.user.name"));
-                user.setPassword(new BCryptPasswordEncoder().encode(env.getProperty("spring.security.user.password")));
+                user.setEmail(env.getProperty("spring.security.user.email"));
+                user.setPassword(encoder.encode(env.getProperty("spring.security.user.password")));
                 user.setRole("ADMIN");
 
                 userRepository.save(user);
