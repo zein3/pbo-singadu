@@ -1,6 +1,7 @@
 package net.sytes.zeinhaddad.singadu.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,26 +23,25 @@ public class UserService implements IUserService {
 
 	@Override
 	public User getUser(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+        Optional<User> user = this.userRepository.findById(id);
+        return (user.isPresent()) ? user.get() : null;
 	}
 
 	@Override
-	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		
+	public Long updateUser(User user) {
+		this.userRepository.save(user);
+        return user.getId();
 	}
 
 	@Override
 	public void deleteUser(Long id) {
-		// TODO Auto-generated method stub
-		
+		this.userRepository.deleteById(id);
 	}
 
 	@Override
-	public void saveUser(Long id) {
-		// TODO Auto-generated method stub
-		
+	public Long saveUser(User user) {
+        this.userRepository.save(user);
+        return user.getId();
 	}
 
 }

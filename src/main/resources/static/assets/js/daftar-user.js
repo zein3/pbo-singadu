@@ -37,8 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector("#user-search").addEventListener("input", (e) => {
     const q = new RegExp(`.*${e.target.value}.*`, 'i');
     loadUser(users.filter(user => q.test(user.name) || q.test(user.email)));
-    // const q = e.target.value;
-    // loadUser(users.filter(user => user.name.includes(q) || user.email.includes(q)));
   })
 
   const response = await fetch("/api/v1/user");
