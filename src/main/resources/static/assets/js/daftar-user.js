@@ -1,3 +1,4 @@
+let users = [];
 const loadUser = (dataUser) => {
   const table = document.querySelector('#data-user');
   let newTable = "";
@@ -32,25 +33,21 @@ const loadUser = (dataUser) => {
   table.innerHTML = newTable;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadUser([
-    {
-      id: 1,
-      name: 'Rafi',
-      email: 'rafi@gmail.com',
-      role: 'Pencacah'
-    },
-    {
-      id: 2,
-      name: 'Yoga',
-      email: 'yoga@gmail.com',
-      role: 'Pengawas'
-    },
-    {
-      id: 3,
-      name: 'Budy',
-      email: 'budy@gmail.com',
-      role: 'Admin'
-    },
-  ]);
+document.addEventListener('DOMContentLoaded', async () => {
+  document.querySelector("#user-search").addEventListener("input", (e) => {
+    const q = new RegExp(`.*${e.target.value}.*`, 'i');
+    loadUser(users.filter(user => q.test(user.name) || q.test(user.email)));
+    // const q = e.target.value;
+    // loadUser(users.filter(user => user.name.includes(q) || user.email.includes(q)));
+  })
+
+  const response = await fetch("/api/v1/user");
+  if (response.redirected) {
+    return;
+  }
+
+  const data = await response.json();
+  users = data;
+
+  loadUser(users);
 });

@@ -16,10 +16,10 @@
   <script th:src="@{/assets/js/sidebar.js}"></script>
 </head>
 <body>
-  <nav th:replace="fragments/nav :: nav"></nav>
+  <nav th:replace="~{fragments/nav :: nav}"></nav>
 
   <main class="main">
-    <nav th:replace="fragments/sidebar :: sidebar"></nav>
+    <nav th:replace="~{fragments/sidebar :: sidebar}"></nav>
     <div class="content">
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent maximus nibh id viverra rutrum. Quisque pharetra enim ipsum, vel blandit lorem ornare nec. Nullam molestie maximus dui, sit amet aliquet velit. Pellentesque ac metus neque. Vivamus pulvinar mollis est. Cras dignissim venenatis euismod. Ut varius nisl mi. Mauris lobortis non tellus aliquam iaculis.</p>
 
