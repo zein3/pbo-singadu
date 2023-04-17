@@ -111,6 +111,57 @@
     </div>
   </div>
 
+  <div id="edit-user-modal" class="modal">
+    <div class="card">
+      <div class="card-header">
+        <h1>Edit User</h1>
+
+        <div class="btn-icon" style="margin-left: auto;" onclick="this.parentElement.parentElement.parentElement.classList.remove('open')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </div>
+      <hr style="width: 100%;">
+      <form id="edit-user-form">
+
+        <input type="hidden" name="id">
+        <input type="hidden" name="password">
+
+        <div class="form-group">
+          <label>Nama</label>
+          <div class="form-div">
+            <input disabled name="name" type="text" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <div class="form-div">
+            <input disabled name="email" type="email" class="form-input">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label>Role</label>
+          <div class="form-div">
+            <select name="role" class="form-input">
+              <option value="PENCACAH">Pencacah</option>
+              <option value="PENGAWAS">Pengawas</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <button class="btn btn-primary btn-block" type="submit">Update User</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
   <div id="add-user-modal" class="modal">
     <div class="card">
       <div class="card-header">
