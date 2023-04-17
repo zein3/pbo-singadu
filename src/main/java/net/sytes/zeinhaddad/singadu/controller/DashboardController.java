@@ -51,4 +51,9 @@ public class DashboardController {
     public String jenisMasalah() {
         return "/ptype/index";
     }
+
+    @GetMapping("/my-profile")
+    public String profile() {
+        return "/profile";
+    }
 }

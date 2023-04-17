@@ -3,6 +3,7 @@ package net.sytes.zeinhaddad.singadu.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,7 @@ import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@PreAuthorize("hasAuthority('ADMIN')")
 @Validated
 public class UserController {
     @Autowired
