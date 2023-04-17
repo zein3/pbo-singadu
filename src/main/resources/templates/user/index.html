@@ -131,14 +131,14 @@
         <div class="form-group">
           <label>Nama</label>
           <div class="form-div">
-            <input disabled name="name" type="text" class="form-input">
+            <input readonly name="name" type="text" class="form-input">
           </div>
         </div>
 
         <div class="form-group">
           <label>Email</label>
           <div class="form-div">
-            <input disabled name="email" type="email" class="form-input">
+            <input readonly name="email" type="email" class="form-input">
           </div>
         </div>
 
@@ -159,6 +159,32 @@
         </div>
 
       </form>
+      <script>
+        document.querySelector("#edit-user-form").addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData.entries());
+          const csrfToken = document.querySelector("#csrf").getAttribute("value");
+
+          try {
+            const response = await fetch("/api/v1/user", {
+              method: "PUT",
+              headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            });
+
+            if (response.status == 200) {
+              getUsersData();
+              document.querySelector("#edit-user-modal").classList.remove("open");
+            }
+          } catch (e) {
+
+          }
+        })
+      </script>
     </div>
   </div>
 
