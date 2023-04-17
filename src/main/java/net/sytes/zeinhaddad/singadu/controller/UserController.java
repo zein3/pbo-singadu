@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import net.sytes.zeinhaddad.singadu.entity.User;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
@@ -32,7 +35,7 @@ public class UserController {
 
     @PostMapping
     public Long store(@NotEmpty @RequestParam("name") String name,
-                      @NotEmpty @RequestParam("email") String email,
+                      @NotEmpty @Email @RequestParam("email") String email,
                       @NotEmpty @RequestParam("password") String password,
                       @NotEmpty @RequestParam("role") String role) {
         User user = new User();
@@ -42,5 +45,11 @@ public class UserController {
         user.setRole(role);
 
         return this.userService.saveUser(user);
+    }
+
+    @DeleteMapping("/{userId}")
+    public Long destroy(@PathVariable Long userId) {
+        this.userService.deleteUser(userId);
+        return 1l;
     }
 }

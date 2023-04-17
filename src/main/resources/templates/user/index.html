@@ -16,6 +16,8 @@
   <script th:src="@{/assets/js/sidebar.js}"></script>
   <script th:src="@{/assets/js/modal.js}"></script>
   <script th:src="@{/assets/js/daftar-user.js}"></script>
+
+  <meta id="csrf" th:value="${_csrf.token}">
 </head>
 <body>
   <nav th:replace="~{fragments/nav :: nav}"></nav>
@@ -88,12 +90,38 @@
           <button class="btn btn-secondary" onclick="document.querySelector('#delete-modal').classList.remove('open')">
             Tidak
           </button>
-          <form>
+          <form id="delete-user-form">
             <input type="hidden" id="delete-id">
             <button class="btn btn-danger">
               Ya
             </button>
           </form>
+          <script>
+            document.querySelector("#delete-user-form").addEventListener('submit', async (e) => {
+              e.preventDefault();
+              const id = document.querySelector("#delete-id").value;
+              const csrfToken = document.querySelector("#csrf").getAttribute("value");
+              if (isNaN(id)) return;
+
+              try {
+                const response = await fetch(`/api/v1/user/${id}`, {
+                  method: 'DELETE',
+                  headers: new Headers({
+                    'X-CSRF-TOKEN': csrfToken
+                  })
+                });
+
+                const data = await response.json();
+                console.log(data);
+
+                getUsersData();
+                document.querySelector('#delete-modal').classList.remove('open')
+              } catch (e) {
+                console.log("error encountered");
+                console.log(e);
+              }
+            })
+          </script>
         </div>
 
       </div>
@@ -163,6 +191,7 @@
 
             const result = response.json();
             console.log(result);
+            getUsersData();
           } catch(e) {
             console.log("Error encountered!");
             console.warn(e);

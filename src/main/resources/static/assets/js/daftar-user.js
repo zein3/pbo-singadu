@@ -33,12 +33,7 @@ const loadUser = (dataUser) => {
   table.innerHTML = newTable;
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  document.querySelector("#user-search").addEventListener("input", (e) => {
-    const q = new RegExp(`.*${e.target.value}.*`, 'i');
-    loadUser(users.filter(user => q.test(user.name) || q.test(user.email)));
-  })
-
+const getUsersData = async () => {
   const response = await fetch("/api/v1/user");
   if (response.redirected) {
     return;
@@ -48,4 +43,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   users = data;
 
   loadUser(users);
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  document.querySelector("#user-search").addEventListener("input", (e) => {
+    const q = new RegExp(`.*${e.target.value}.*`, 'i');
+    loadUser(users.filter(user => q.test(user.name) || q.test(user.email)));
+  })
+
+  await getUsersData();
 });
