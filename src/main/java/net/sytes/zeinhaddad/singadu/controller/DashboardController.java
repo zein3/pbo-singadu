@@ -30,12 +30,6 @@ public class DashboardController {
         return "/user/index";
     }
 
-    @GetMapping("/user/{id}/edit")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String editUser(@PathVariable Long id, Model model) {
-        return "/user/edit";
-    }
-
     @GetMapping("/laporan")
     public String laporan() {
         return "/laporan/index";
