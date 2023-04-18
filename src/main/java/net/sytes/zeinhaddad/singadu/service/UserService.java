@@ -31,6 +31,12 @@ public class UserService implements IUserService {
         return this.userRepository.findBySupervisorId(id);
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return user;
+    }
+
 	@Override
 	public User getUser(Long id) {
         Optional<User> user = this.userRepository.findById(id);
