@@ -60,10 +60,35 @@ const getUsersData = async () => {
   loadUser(users);
 }
 
+const getPengawas = async () => {
+  const response = await fetch("/api/v1/user/role/PENGAWAS");
+  if (response.redirected)
+    return null;
+  
+  return await response.json();
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector("#user-search").addEventListener("input", (e) => {
     const q = new RegExp(`.*${e.target.value}.*`, 'i');
     loadUser(users.filter(user => q.test(user.name) || q.test(user.email)));
+  })
+
+
+  const selectSupervisorDiv = document.querySelector("#edit-supervisor");
+  const selectSupervisorInput = selectSupervisorDiv.querySelector("select");
+  document.querySelector("#edit-role").addEventListener("change", (e) => {
+    selectSupervisorDiv.style.display = (e.target.value === "PENCACAH") ? 'block' : 'none';
+    selectSupervisorInput.disabled = (e.target.value !== "PENCACAH");
+  });
+
+  const pengawas = await getPengawas();
+  pengawas.map(p => {
+    const option = document.createElement("option");
+    option.value = p.id;
+    option.innerText = p.name;
+
+    selectSupervisorInput.appendChild(option);
   })
 
   await getUsersData();

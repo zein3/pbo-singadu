@@ -142,15 +142,21 @@
           </div>
         </div>
 
-
         <div class="form-group">
           <label>Role</label>
           <div class="form-div">
-            <select name="role" class="form-input">
+            <select id="edit-role" name="role" class="form-input">
               <option value="PENCACAH">Pencacah</option>
               <option value="PENGAWAS">Pengawas</option>
               <option value="ADMIN">Admin</option>
             </select>
+          </div>
+        </div>
+
+        <div id="edit-supervisor" class="form-group" style="display: none;">
+          <label>Supervisor</label>
+          <div class="form-div">
+            <select name="supervisor_id" class="form-input"></select>
           </div>
         </div>
 
@@ -165,6 +171,9 @@
           const formData = new FormData(e.target);
           const data = Object.fromEntries(formData.entries());
           const csrfToken = document.querySelector("#csrf").getAttribute("value");
+
+          data.supervisor = {id: data.supervisor_id}
+          data.supervisor_id = null;
 
           try {
             const response = await fetch("/api/v1/user", {

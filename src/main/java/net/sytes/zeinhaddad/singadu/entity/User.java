@@ -83,4 +83,12 @@ public class User implements Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+    public User getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(User supervisor) {
+        this.supervisor = supervisor;
+    }
 }

@@ -37,6 +37,11 @@ public class UserController {
         return this.userService.getUsers();
     }
 
+    @GetMapping("/{id}")
+    public User get(@PathVariable Long id) {
+        return this.userService.getUser(id);
+    }
+
     @GetMapping("/role/{role}")
     public List<User> userWithRole(@PathVariable String role) {
         return this.userService.getUsersWithRole(role);
@@ -63,6 +68,9 @@ public class UserController {
 
     @PutMapping
     public Long update(@RequestBody User user) {
+        if (user.getRole() != "PENCACAH") {
+            user.setSupervisor(null);
+        }
         return this.userService.updateUser(user);
     }
 
