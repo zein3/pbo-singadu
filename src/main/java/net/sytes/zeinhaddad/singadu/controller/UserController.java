@@ -68,7 +68,7 @@ public class UserController {
 
     @PutMapping
     public Long update(@RequestBody User user) {
-        if (user.getRole() != "PENCACAH") {
+        if (!user.getRole().equals("PENCACAH")) {
             user.setSupervisor(null);
         }
         return this.userService.updateUser(user);

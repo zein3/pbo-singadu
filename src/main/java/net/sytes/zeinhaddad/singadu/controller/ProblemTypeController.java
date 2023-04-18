@@ -17,7 +17,6 @@ import net.sytes.zeinhaddad.singadu.entity.ProblemType;
 import net.sytes.zeinhaddad.singadu.repository.ProblemTypeRepository;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/v1/problem-type")
 @Validated
 public class ProblemTypeController {
@@ -30,12 +29,14 @@ public class ProblemTypeController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Long store(@RequestBody ProblemType problemType) {
         this.problemTypeRepository.save(problemType);
         return 1l;
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Long destroy(@PathVariable Long id) {
         this.problemTypeRepository.deleteById(id);
         return 1l;

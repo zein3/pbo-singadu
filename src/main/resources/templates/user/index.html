@@ -173,7 +173,9 @@
           const csrfToken = document.querySelector("#csrf").getAttribute("value");
 
           data.supervisor = {id: data.supervisor_id}
-          data.supervisor_id = null;
+          delete data.supervisor_id;
+
+          console.log(data);
 
           try {
             const response = await fetch("/api/v1/user", {

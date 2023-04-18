@@ -2,6 +2,8 @@ package net.sytes.zeinhaddad.singadu.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,7 +38,27 @@ public class ReportController {
 
     @GetMapping
     public List<ReportDto> index() {
-        return reportService.getReports();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+
+        User user = userService.getUserByEmail(auth.getName());
+        List<ReportDto> reports = reportService.getReports();
+        if (user.getRole().equals("ADMIN")) {
+            return reports;
+        } else if (user.getRole().equals("PENGAWAS")) {
+            List<User> diawasi = userService.getUsersSupervisedBy(user.getId());
+            Set<Long> diawasiId = diawasi.stream().map(u -> u.getId()).collect(Collectors.toSet());
+
+            return reports.stream()
+                .filter(report -> diawasiId.contains(report.getReporter().getId()))
+                .collect(Collectors.toList());
+        } else {
+            return reports.stream()
+                .filter(report -> report.getReporter().getId() == user.getId())
+                .collect(Collectors.toList());
+        }
     }
 
     @PostMapping
