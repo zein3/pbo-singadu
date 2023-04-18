@@ -37,6 +37,16 @@ public class UserController {
         return this.userService.getUsers();
     }
 
+    @GetMapping("/role/{role}")
+    public List<User> userWithRole(@PathVariable String role) {
+        return this.userService.getUsersWithRole(role);
+    }
+
+    @GetMapping("/supervised/{id}")
+    public List<User> supervisedBy(@PathVariable Long id) {
+        return this.userService.getUsersSupervisedBy(id);
+    }
+
     @PostMapping
     public Long store(@NotEmpty @RequestParam("name") String name,
                       @NotEmpty @Email @RequestParam("email") String email,

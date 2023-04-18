@@ -21,6 +21,16 @@ public class UserService implements IUserService {
         return users;
 	}
 
+    @Override
+    public List<User> getUsersWithRole(String role) {
+        return this.userRepository.findByRole(role);
+    }
+
+    @Override
+    public List<User> getUsersSupervisedBy(Long id) {
+        return this.userRepository.findBySupervisorId(id);
+    }
+
 	@Override
 	public User getUser(Long id) {
         Optional<User> user = this.userRepository.findById(id);
