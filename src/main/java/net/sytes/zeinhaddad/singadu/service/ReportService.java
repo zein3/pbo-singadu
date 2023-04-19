@@ -41,8 +41,8 @@ public class ReportService implements IReportService {
 
 	@Override
 	public Long destroy(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+        this.reportRepository.deleteById(id);
+		return 1l;
 	}
 
 }

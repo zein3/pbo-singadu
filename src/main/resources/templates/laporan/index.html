@@ -90,12 +90,37 @@
           <button class="btn btn-secondary" onclick="document.querySelector('#delete-modal').classList.remove('open')">
             Tidak
           </button>
-          <form>
+          <form id="delete-form">
             <input type="hidden" id="delete-id">
-            <button class="btn btn-danger">
+            <button class="btn btn-danger" type="submit">
               Ya
             </button>
           </form>
+          <script>
+            document.querySelector("#delete-form").addEventListener('submit', async (e) => {
+              e.preventDefault();
+
+              const csrfToken = document.querySelector("#csrf").getAttribute("value");
+              const id = document.querySelector("#delete-id").value;
+
+              try {
+                const response = await fetch(`/api/v1/report/${id}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                  }
+                });
+
+                console.log(response);
+                if (response.status == 200) {
+                  document.querySelector("#delete-modal").classList.remove('open');
+                  getReports();
+                }
+              } catch(e) {
+                console.warn(e);
+              }
+            })
+          </script>
         </div>
 
       </div>
