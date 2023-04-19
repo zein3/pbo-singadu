@@ -23,7 +23,7 @@
           </svg>
         </div>
         <ul>
-          <li><a href="./profile.html">Profile</a></li>
+          <li><a th:href="@{/my-profile}">Profile</a></li>
           <li>
             <form id="logout" th:action="@{/logout}" method="post">
               <a style="cursor: pointer;" onclick="document.querySelector('#logout').submit()">Logout</a>

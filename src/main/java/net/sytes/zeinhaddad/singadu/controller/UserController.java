@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import net.sytes.zeinhaddad.singadu.entity.User;
+import net.sytes.zeinhaddad.singadu.form.ChangeProfileForm;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @RestController
@@ -78,5 +80,18 @@ public class UserController {
     public Long destroy(@PathVariable Long userId) {
         this.userService.deleteUser(userId);
         return 1l;
+    }
+
+    @PutMapping("/profile")
+    public Long updateProfile(@RequestBody ChangeProfileForm form, Authentication auth) {
+        User user = userService.getUserByEmail(auth.getName());
+        user.setName(form.getName());
+        user.setEmail(form.getEmail());
+        return userService.updateUser(user);
+    }
+
+    @PutMapping("/password")
+    public Long updatePassword() {
+        return 0l;
     }
 }

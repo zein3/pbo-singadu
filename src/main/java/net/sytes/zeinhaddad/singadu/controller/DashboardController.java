@@ -1,13 +1,23 @@
 package net.sytes.zeinhaddad.singadu.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import net.sytes.zeinhaddad.singadu.entity.User;
+import net.sytes.zeinhaddad.singadu.service.IUserService;
+
 @Controller
 public class DashboardController {
+
+    @Autowired
+    private IUserService userService;
+
     @GetMapping("/")
     public String index() {
         return "/index";
@@ -47,7 +57,11 @@ public class DashboardController {
     }
 
     @GetMapping("/my-profile")
-    public String profile() {
+    public String profile(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByEmail(auth.getName());
+
+        model.addAttribute("user", user);
         return "/profile";
     }
 }
