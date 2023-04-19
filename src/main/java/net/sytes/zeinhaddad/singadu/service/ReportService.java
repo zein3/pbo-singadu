@@ -1,6 +1,7 @@
 package net.sytes.zeinhaddad.singadu.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,12 @@ public class ReportService implements IReportService {
 
 	@Override
 	public ReportDto getReport(Long id) {
-		return null;
+        Optional<Report> report = reportRepository.findById(id);
+        if (report.isEmpty()) {
+            return null;
+        }
+
+        return ReportMapper.mapToDto(report.get());
 	}
 
 	@Override
@@ -35,6 +41,7 @@ public class ReportService implements IReportService {
             this.reportRepository.save(ReportMapper.mapToEntity(reportDto));
             return 1l;
         } catch(Exception e) {
+            System.out.println(e);
             return 0l;
         }
 	}

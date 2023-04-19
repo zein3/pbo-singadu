@@ -20,6 +20,26 @@ const openProblemDetailModal = (problemId) => {
   document.querySelector("#detail-modal").classList.add('open');
 }
 
+const openEditReportModal = (problemId) => {
+  const report = reports.find(report => report.id == problemId);
+
+  const form = document.querySelector("#edit-report-form");
+  form.querySelector('[name="id"]').value = report.id;
+  form.querySelector('[name="description"]').value = report.description;
+  form.querySelector('[name="reporterId"]').value = report.reporter.id;
+  form.querySelector('[name="reporterName"]').value = report.reporter.name;
+  form.querySelector('[name="solved"]').checked = report.solved;
+
+  const pTypeOptions = form.querySelector('[name="problemTypeId"]').children;
+  Array.from(pTypeOptions).map(option => {
+    option.selected = (option.value == report.problemType.id);
+  });
+
+  // form.querySelector('[name=""]').value = report.
+
+  document.querySelector("#edit-report-modal").classList.add('open');
+}
+
 const loadLaporan = (dataLaporan) => {
   const table = document.querySelector("#data-laporan");
   let newTable = "";
@@ -36,7 +56,7 @@ const loadLaporan = (dataLaporan) => {
                     <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
                   </svg>
                 </span>
-                <span style="margin-right: 0.5rem;" class="btn-action" href="./edit-laporan.html">
+                <span style="margin-right: 0.5rem;" class="btn-action" href="./edit-laporan.html" onclick="openEditReportModal(${laporan.id})">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon small success">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                   </svg>
@@ -65,6 +85,8 @@ const getReports = async () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const problemTypeOptions = document.querySelector('[name="problemTypeId"]');
+
   document.querySelector("#search").addEventListener("input", (e) => {
     const q = new RegExp(`.*${e.target.value}.*`, 'i');
     loadLaporan(reports.filter(report => q.test(report.description) ||
@@ -72,6 +94,18 @@ document.addEventListener('DOMContentLoaded', () => {
       q.test(report.problemType.name)
     ));
   })
+
+  fetch("/api/v1/problem-type")
+    .then(response => response.json())
+    .then(problemTypes => {
+      problemTypes.map(problemType => {
+        const option = document.createElement("option");
+        option.value = problemType.id;
+        option.innerText = problemType.name;
+
+        problemTypeOptions.appendChild(option);
+      })
+    })
 
   getReports();
 })

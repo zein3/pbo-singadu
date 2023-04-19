@@ -127,5 +127,96 @@
     </div>
   </div>
 
+  <div id="edit-report-modal" class="modal">
+    <div class="card">
+      <div class="card-header">
+        <h1>Edit Laporan</h1>
+
+        <div class="btn-icon" style="margin-left: auto;" onclick="this.parentElement.parentElement.parentElement.classList.remove('open')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </div>
+      <hr style="width: 100%;">
+      <form id="edit-report-form">
+
+        <input type="hidden" name="id">
+        <input type="hidden" name="reporterId">
+
+        <div class="form-group">
+          <label>Pelapor</label>
+          <div class="form-div">
+            <input name="reporterName" type="text" disabled class="form-input" value="Rafi">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Jenis Masalah</label>
+          <div class="form-div">
+            <select name="problemTypeId" class="form-input">
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Deskripsi Masalah</label>
+          <div class="form-div">
+            <textarea name="description" rows="3" class="form-input"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Masalah selesai</label>
+          <input type="checkbox" name="solved">
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <button class="btn btn-primary btn-block" type="submit">Simpan</button>
+        </div>
+
+      </form>
+      <script>
+        document.querySelector("#edit-report-form").addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData.entries());
+          const csrfToken = document.querySelector("#csrf").getAttribute("value");
+
+          data.reporter = { id: data.reporterId };
+          data.problemType = { id: data.problemTypeId };
+          data.solved = (data.solved == undefined) ? false : true;
+
+          delete data.reporterId;
+          delete data.problemTypeId;
+
+          try {
+            const response = await fetch("/api/v1/report", {
+              method: "PUT",
+              headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            });
+
+            if (response.status == 200) {
+              const data = await response.json();
+              if (data == 0) {
+                alert("Something went wrong.");
+                return;
+              }
+
+              getReports();
+              document.querySelector("#edit-report-modal").classList.remove("open");
+            }
+          } catch (e) {
+
+          }
+        })
+      </script>
+    </div>
+  </div>
+
 </body>
 </html>

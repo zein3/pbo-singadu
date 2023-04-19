@@ -95,7 +95,6 @@
                 });
 
                 const data = await response.json();
-                console.log(data);
 
                 getUsersData();
                 document.querySelector('#delete-modal').classList.remove('open')
@@ -174,8 +173,6 @@
 
           data.supervisor = {id: data.supervisor_id}
           delete data.supervisor_id;
-
-          console.log(data);
 
           try {
             const response = await fetch("/api/v1/user", {
@@ -261,7 +258,6 @@
             });
 
             const result = response.json();
-            console.log(result);
             getUsersData();
           } catch(e) {
             console.log("Error encountered!");
