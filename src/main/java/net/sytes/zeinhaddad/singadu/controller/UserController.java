@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import net.sytes.zeinhaddad.singadu.entity.User;
+import net.sytes.zeinhaddad.singadu.form.ChangePasswordForm;
 import net.sytes.zeinhaddad.singadu.form.ChangeProfileForm;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @RestController
 @RequestMapping("/api/v1/user")
-@PreAuthorize("hasAuthority('ADMIN')")
 @Validated
 public class UserController {
     @Autowired
@@ -55,6 +55,7 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Long store(@NotEmpty @RequestParam("name") String name,
                       @NotEmpty @Email @RequestParam("email") String email,
                       @NotEmpty @RequestParam("password") String password,
@@ -69,6 +70,7 @@ public class UserController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Long update(@RequestBody User user) {
         if (!user.getRole().equals("PENCACAH")) {
             user.setSupervisor(null);
@@ -77,6 +79,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Long destroy(@PathVariable Long userId) {
         this.userService.deleteUser(userId);
         return 1l;
@@ -91,7 +94,23 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public Long updatePassword() {
-        return 0l;
+    public String updatePassword(@RequestBody ChangePasswordForm form, Authentication auth) {
+        User user = userService.getUserByEmail(auth.getName());
+
+        // check old password
+        if (!encoder.matches(form.getOldPassword(), user.getPassword())) {
+            // user password does not match
+            return "Wrong password";
+        }
+
+        // new password == confirm password
+        if (!form.getNewPassword().equals(form.getConfirmPassword())) {
+            return "Passwords do not match";
+        }
+
+        user.setPassword(encoder.encode(form.getNewPassword()));
+        userService.updateUser(user);
+
+        return "success";
     }
 }
