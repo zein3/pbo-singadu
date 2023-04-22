@@ -22,6 +22,7 @@ import jakarta.validation.constraints.NotEmpty;
 import net.sytes.zeinhaddad.singadu.entity.User;
 import net.sytes.zeinhaddad.singadu.form.ChangePasswordForm;
 import net.sytes.zeinhaddad.singadu.form.ChangeProfileForm;
+import net.sytes.zeinhaddad.singadu.form.CreateAccountForm;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @RestController
@@ -56,17 +57,14 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Long store(@NotEmpty @RequestParam("name") String name,
-                      @NotEmpty @Email @RequestParam("email") String email,
-                      @NotEmpty @RequestParam("password") String password,
-                      @NotEmpty @RequestParam("role") String role) {
+    public Long store(@RequestBody CreateAccountForm form) {
         User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(encoder.encode(password));
-        user.setRole(role);
+        user.setName(form.getName());
+        user.setEmail(form.getEmail());
+        user.setPassword(encoder.encode(form.getPassword()));
+        user.setRole(form.getRole());
 
-        return this.userService.saveUser(user);
+        return userService.saveUser(user);
     }
 
     @PutMapping

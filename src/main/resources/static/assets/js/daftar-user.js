@@ -21,9 +21,13 @@ const openEditModal = (id) => {
   if (user.role === "PENCACAH") {
     editSupervisorDiv.style.display = "block";
     editSupervisorInput.disabled = false;
-    Array.from(editSupervisorInput.children).map(option => {
-      option.selected = (option.value == user.supervisor.id);
-    })
+    if (user.supervisor != null) {
+      Array.from(editSupervisorInput.children).map(option => {
+        option.selected = (option.value == user.supervisor.id);
+      })
+    } else {
+      Array.from(editSupervisorInput.children).map(option => option.selected = false);
+    }
   } else {
     editSupervisorDiv.style.display = "none";
     editSupervisorInput.disabled = true;

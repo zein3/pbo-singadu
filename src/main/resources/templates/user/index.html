@@ -249,15 +249,21 @@
       <script>
         document.querySelector("#add-user-form").addEventListener("submit", async (e) => {
           e.preventDefault();
-          const data = new FormData(e.target);
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData.entries());
+          const csrfToken = document.querySelector("#csrf").getAttribute("value");
 
           try {
             const response = await fetch("/api/v1/user", {
               method: "POST",
-              body: data
+              headers: {
+                "X-CSRF-TOKEN": csrfToken,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data)
             });
 
-            const result = response.json();
+            const result = await response.json();
             getUsersData();
           } catch(e) {
             console.log("Error encountered!");
