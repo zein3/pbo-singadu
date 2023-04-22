@@ -263,8 +263,13 @@
               body: JSON.stringify(data)
             });
 
-            const result = await response.json();
-            getUsersData();
+            console.log(response);
+            if (response.status == 200) {
+              getUsersData();
+            } else {
+              const error = await response.json();
+              console.log(error);
+            }
           } catch(e) {
             console.log("Error encountered!");
             console.warn(e);
