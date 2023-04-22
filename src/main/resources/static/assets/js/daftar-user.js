@@ -16,6 +16,19 @@ const openEditModal = (id) => {
     option.selected = (option.value === user.role);
   })
 
+  const editSupervisorDiv = form.querySelector("#edit-supervisor");
+  const editSupervisorInput = editSupervisorDiv.querySelector("select");
+  if (user.role === "PENCACAH") {
+    editSupervisorDiv.style.display = "block";
+    editSupervisorInput.disabled = false;
+    Array.from(editSupervisorInput.children).map(option => {
+      option.selected = (option.value == user.supervisor.id);
+    })
+  } else {
+    editSupervisorDiv.style.display = "none";
+    editSupervisorInput.disabled = true;
+  }
+
   document.querySelector("#edit-user-modal").classList.add("open");
 }
 
