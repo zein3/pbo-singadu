@@ -97,24 +97,24 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public String updatePassword(@Valid @RequestBody ChangePasswordForm form, Authentication auth) {
+    public Long updatePassword(@Valid @RequestBody ChangePasswordForm form, Authentication auth) {
         User user = userService.getUserByEmail(auth.getName());
 
         // check old password
         if (!encoder.matches(form.getOldPassword(), user.getPassword())) {
             // user password does not match
-            return "Wrong password";
+            return 0l;
         }
 
         // new password == confirm password
-        if (!form.getNewPassword().equals(form.getConfirmPassword())) {
-            return "Passwords do not match";
-        }
+        // if (!form.getNewPassword().equals(form.getConfirmPassword())) {
+        //     return "Passwords do not match";
+        // }
 
         user.setPassword(encoder.encode(form.getNewPassword()));
         userService.updateUser(user);
 
-        return "success";
+        return 1l;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

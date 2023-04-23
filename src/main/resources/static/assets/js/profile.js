@@ -15,15 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(data)
       });
 
-      if (response.status != 200) {
-        throw "Error encountered";
-      }
-
-      const result = await response.json();
-      if (result != 0) {
-        alert("Success!");
+      if (response.status == 200) {
+        alert("Berhasil mengubah profil");
       } else {
-        alert("Something went wrong");
+        const errors = await response.json();
+        showError(errors, "edit-profile-error-alert")
       }
     } catch(e) {
       console.warn(e)
@@ -46,15 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(data)
       });
 
-      if (response.status != 200) {
-        throw "Error encountered";
-      }
-
-      const result = await response.text();
-      if (result == "success") {
-        alert("Password changed");
+      if (response.status == 200) {
+        const result = await response.text();
+        console.log(result);
+        if (result != 0) {
+          alert("Successfully changed password");
+        } else {
+          showError({"error": "Gagal mengubah password"}, "edit-password-error-alert");
+        }
       } else {
-        throw result;
+        showError({"error": "Gagal mengubah password"}, "edit-password-error-alert");
       }
     } catch(e) {
       if (typeof e == "string") {
