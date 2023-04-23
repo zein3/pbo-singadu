@@ -16,6 +16,7 @@
   <script th:src="@{/assets/js/sidebar.js}"></script>
   <script th:src="@{/assets/js/modal.js}"></script>
   <script th:src="@{/assets/js/daftar-user.js}"></script>
+  <script th:src="@{/assets/js/error.js}"></script>
 
   <meta id="csrf" th:value="${_csrf.token}">
 </head>
@@ -122,6 +123,14 @@
         </div>
       </div>
       <hr style="width: 100%;">
+      <div id="edit-user-error-alert" class="alert danger">
+        <span></span>
+        <div class="btn-icon" style="margin-left: auto;" onclick="this.parentElement.classList.remove('open')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </div>
       <form id="edit-user-form">
 
         <input type="hidden" name="id">
@@ -187,6 +196,9 @@
             if (response.status == 200) {
               getUsersData();
               document.querySelector("#edit-user-modal").classList.remove("open");
+            } else {
+              const errors = await response.json();
+              showError(errors, "edit-user-error-alert");
             }
           } catch (e) {
 
@@ -208,6 +220,14 @@
         </div>
       </div>
       <hr style="width: 100%;">
+      <div id="add-user-error-alert" class="alert danger">
+        <span></span>
+        <div class="btn-icon" style="margin-left: auto;" onclick="this.parentElement.classList.remove('open')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </div>
       <form id="add-user-form">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <div class="form-group">
@@ -269,6 +289,7 @@
             } else {
               const error = await response.json();
               console.log(error);
+              showError(error, "add-user-error-alert");
             }
           } catch(e) {
             console.log("Error encountered!");
