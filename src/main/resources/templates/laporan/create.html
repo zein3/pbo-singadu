@@ -14,6 +14,7 @@
 
   <script th:src="@{/assets/js/theme.js}"></script>
   <script th:src="@{/assets/js/sidebar.js}"></script>
+  <script th:src="@{/assets/js/error.js}"></script>
   <script th:src="@{/assets/js/buat-laporan.js}"></script>
 
   <meta id="csrf" th:value="${_csrf.token}">
@@ -29,6 +30,14 @@
       </h1>
 
       <div class="card">
+        <div id="add-report-error-alert" class="alert danger">
+          <span></span>
+          <div class="btn-icon" style="margin-left: auto;" onclick="this.parentElement.classList.remove('open')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+        </div>
         <form id="create-report-form">
 
           <div class="form-group">

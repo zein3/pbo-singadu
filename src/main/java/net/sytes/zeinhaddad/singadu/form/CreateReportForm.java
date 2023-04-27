@@ -3,13 +3,14 @@ package net.sytes.zeinhaddad.singadu.form;
 import java.io.Serializable;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateReportForm implements Serializable {
 
     @NotEmpty
     private String description;
 
-    @NotEmpty
+    @NotNull
     private Long problemTypeId;
 
     public CreateReportForm() {}

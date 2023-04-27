@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.status == 200) {
         alert("Success!");
+      } else {
+        const error = await response.json();
+        showError({ "error": "gagal menambahkan laporan" }, "add-report-error-alert");
       }
     } catch(e) {
       console.log(e);

@@ -1,12 +1,16 @@
 package net.sytes.zeinhaddad.singadu.controller;
 
+import jakarta.validation.Valid;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +29,10 @@ import net.sytes.zeinhaddad.singadu.form.CreateReportForm;
 import net.sytes.zeinhaddad.singadu.repository.ProblemTypeRepository;
 import net.sytes.zeinhaddad.singadu.service.IReportService;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.validation.FieldError;
 
 @RestController
 @RequestMapping("/api/v1/report")
@@ -64,7 +72,7 @@ public class ReportController {
     }
 
     @PostMapping
-    public Long store(@RequestBody CreateReportForm form) {
+    public Long store(@Valid @RequestBody CreateReportForm form) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             return 0l;
@@ -86,7 +94,7 @@ public class ReportController {
     }
 
     @PutMapping
-    public Long update(@RequestBody ReportDto report) {
+    public Long update(@Valid @RequestBody ReportDto report) {
         ReportDto r = reportService.getReport(report.getId());
         if (r == null) {
             return 0l;
@@ -100,5 +108,18 @@ public class ReportController {
     @DeleteMapping("/{id}")
     public Long destroy(@PathVariable Long id) {
         return reportService.destroy(id);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationException(MethodArgumentNotValidException err) {
+        Map<String, String> errors = new HashMap<>();
+        err.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        return errors;
     }
 }

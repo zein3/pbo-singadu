@@ -27,7 +27,7 @@ public class ReportDto {
     @NotEmpty(message = "Tolong masukan deskripsi")
     private String description;
 
-    @NotEmpty
+    @NotNull
     private boolean solved;
 
     @NotNull
