@@ -29,7 +29,6 @@ import net.sytes.zeinhaddad.singadu.form.ChangePasswordForm;
 import net.sytes.zeinhaddad.singadu.form.ChangeProfileForm;
 import net.sytes.zeinhaddad.singadu.form.CreateAccountForm;
 import net.sytes.zeinhaddad.singadu.mapper.UserMapper;
-import net.sytes.zeinhaddad.singadu.repository.UserRepository;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @RestController
@@ -38,9 +37,6 @@ import net.sytes.zeinhaddad.singadu.service.IUserService;
 public class UserController {
     @Autowired
     private IUserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder encoder;

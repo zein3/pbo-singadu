@@ -3,7 +3,6 @@ package net.sytes.zeinhaddad.singadu.service;
 import java.util.List;
 
 import net.sytes.zeinhaddad.singadu.dto.UserDto;
-import net.sytes.zeinhaddad.singadu.entity.User;
 
 public interface IUserService {
     public List<UserDto> getUsers();

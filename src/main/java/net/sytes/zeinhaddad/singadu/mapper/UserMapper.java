@@ -1,7 +1,5 @@
 package net.sytes.zeinhaddad.singadu.mapper;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.entity.User;
 

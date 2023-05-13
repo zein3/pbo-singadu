@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import net.sytes.zeinhaddad.singadu.dto.ReportDto;
 import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.entity.ProblemType;
-import net.sytes.zeinhaddad.singadu.entity.User;
 import net.sytes.zeinhaddad.singadu.form.CreateReportForm;
 import net.sytes.zeinhaddad.singadu.mapper.UserMapper;
 import net.sytes.zeinhaddad.singadu.repository.ProblemTypeRepository;
