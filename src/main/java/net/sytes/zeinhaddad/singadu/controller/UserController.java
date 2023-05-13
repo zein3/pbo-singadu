@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import net.sytes.zeinhaddad.singadu.entity.User;
+import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.form.ChangePasswordForm;
 import net.sytes.zeinhaddad.singadu.form.ChangeProfileForm;
 import net.sytes.zeinhaddad.singadu.form.CreateAccountForm;
+import net.sytes.zeinhaddad.singadu.mapper.UserMapper;
+import net.sytes.zeinhaddad.singadu.repository.UserRepository;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @RestController
@@ -38,43 +40,51 @@ public class UserController {
     private IUserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private PasswordEncoder encoder;
 
     @GetMapping
-    public List<User> index() {
+    public List<UserDto> index() {
         return this.userService.getUsers();
     }
 
     @GetMapping("/{id}")
-    public User get(@PathVariable Long id) {
+    public UserDto get(@PathVariable Long id) {
         return this.userService.getUser(id);
     }
 
     @GetMapping("/role/{role}")
-    public List<User> userWithRole(@PathVariable String role) {
+    public List<UserDto> userWithRole(@PathVariable String role) {
         return this.userService.getUsersWithRole(role);
     }
 
     @GetMapping("/supervised/{id}")
-    public List<User> supervisedBy(@PathVariable Long id) {
+    public List<UserDto> supervisedBy(@PathVariable Long id) {
         return this.userService.getUsersSupervisedBy(id);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public Long store(@Valid @RequestBody CreateAccountForm form) {
-        User user = new User();
-        user.setName(form.getName());
-        user.setEmail(form.getEmail());
-        user.setPassword(encoder.encode(form.getPassword()));
-        user.setRole(form.getRole());
+        UserDto userDto = UserDto.builder()
+            .name(form.getName())
+            .email(form.getEmail())
+            .password(encoder.encode(form.getPassword()))
+            .role(form.getRole())
+            .build();
 
-        return userService.saveUser(user);
+        System.out.println(encoder.encode(form.getPassword()));
+        System.out.println(userDto.getPassword());
+        System.out.println(UserMapper.mapToUser(userDto).getPassword());
+
+        return userService.saveUser(userDto);
     }
 
     @PutMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Long update(@Valid @RequestBody User user) {
+    public Long update(@Valid @RequestBody UserDto user) {
         if (!user.getRole().equals("PENCACAH")) {
             user.setSupervisor(null);
         }
@@ -90,7 +100,7 @@ public class UserController {
 
     @PutMapping("/profile")
     public Long updateProfile(@Valid @RequestBody ChangeProfileForm form, Authentication auth) {
-        User user = userService.getUserByEmail(auth.getName());
+        UserDto user = userService.getUserByEmail(auth.getName());
         user.setName(form.getName());
         user.setEmail(form.getEmail());
         return userService.updateUser(user);
@@ -98,7 +108,7 @@ public class UserController {
 
     @PutMapping("/password")
     public Long updatePassword(@Valid @RequestBody ChangePasswordForm form, Authentication auth) {
-        User user = userService.getUserByEmail(auth.getName());
+        UserDto user = userService.getUserByEmail(auth.getName());
 
         // check old password
         if (!encoder.matches(form.getOldPassword(), user.getPassword())) {

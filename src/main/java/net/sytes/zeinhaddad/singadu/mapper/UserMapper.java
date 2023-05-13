@@ -11,10 +11,27 @@ public class UserMapper {
             .id(userDto.getId())
             .name(userDto.getName())
             .email(userDto.getEmail())
-            .password(new BCryptPasswordEncoder().encode(userDto.getPassword()))
+            .password(userDto.getPassword())
             .role(userDto.getRole())
             .build();
 
         return user;
+    }
+
+    public static UserDto mapToDto(User user) {
+        if (user == null) {
+            return null;
+        }
+
+        UserDto dto = UserDto.builder()
+            .id(user.getId())
+            .name(user.getName())
+            .email(user.getEmail())
+            .password(user.getPassword())
+            .role(user.getRole())
+            .supervisor(UserMapper.mapToDto(user.getSupervisor()))
+            .build();
+        
+        return dto;
     }
 }

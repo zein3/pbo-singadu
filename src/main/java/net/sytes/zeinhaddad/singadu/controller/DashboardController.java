@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import net.sytes.zeinhaddad.singadu.entity.User;
+import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @Controller
@@ -59,7 +59,7 @@ public class DashboardController {
     @GetMapping("/my-profile")
     public String profile(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getUserByEmail(auth.getName());
+        UserDto user = userService.getUserByEmail(auth.getName());
 
         model.addAttribute("user", user);
         return "/profile";

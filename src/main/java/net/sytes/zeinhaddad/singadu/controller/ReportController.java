@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.sytes.zeinhaddad.singadu.dto.ReportDto;
+import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.entity.ProblemType;
 import net.sytes.zeinhaddad.singadu.entity.User;
 import net.sytes.zeinhaddad.singadu.form.CreateReportForm;
+import net.sytes.zeinhaddad.singadu.mapper.UserMapper;
 import net.sytes.zeinhaddad.singadu.repository.ProblemTypeRepository;
 import net.sytes.zeinhaddad.singadu.service.IReportService;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
@@ -53,12 +55,12 @@ public class ReportController {
             return null;
         }
 
-        User user = userService.getUserByEmail(auth.getName());
+        UserDto user = userService.getUserByEmail(auth.getName());
         List<ReportDto> reports = reportService.getReports();
         if (user.getRole().equals("ADMIN")) {
             return reports;
         } else if (user.getRole().equals("PENGAWAS")) {
-            List<User> diawasi = userService.getUsersSupervisedBy(user.getId());
+            List<UserDto> diawasi = userService.getUsersSupervisedBy(user.getId());
             Set<Long> diawasiId = diawasi.stream().map(u -> u.getId()).collect(Collectors.toSet());
 
             return reports.stream()
@@ -78,7 +80,7 @@ public class ReportController {
             return 0l;
         }
 
-        User reporter = userService.getUserByEmail(auth.getName());
+        UserDto reporter = userService.getUserByEmail(auth.getName());
         Optional<ProblemType> problemType = problemTypeRepository.findById(form.getProblemTypeId());
         if (problemType.isEmpty()) {
             return 0l;
@@ -87,7 +89,7 @@ public class ReportController {
         ReportDto report = ReportDto.builder()
             .description(form.getDescription())
             .solved(false)
-            .reporter(reporter)
+            .reporter(UserMapper.mapToUser(reporter))
             .problemType(problemType.get())
             .build();
         return reportService.save(report);

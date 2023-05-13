@@ -2,11 +2,14 @@ package net.sytes.zeinhaddad.singadu.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.entity.User;
+import net.sytes.zeinhaddad.singadu.mapper.UserMapper;
 import net.sytes.zeinhaddad.singadu.repository.UserRepository;
 
 @Service
@@ -16,36 +19,44 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
 
 	@Override
-	public List<User> getUsers() {
+	public List<UserDto> getUsers() {
         List<User> users = this.userRepository.findAll();
-        return users;
+        return users.stream()
+            .map(user -> UserMapper.mapToDto(user))
+            .collect(Collectors.toList());
 	}
 
     @Override
-    public List<User> getUsersWithRole(String role) {
-        return this.userRepository.findByRole(role);
+    public List<UserDto> getUsersWithRole(String role) {
+        List<User> users = this.userRepository.findByRole(role);
+        return users.stream()
+            .map(user -> UserMapper.mapToDto(user))
+            .collect(Collectors.toList());
     }
 
     @Override
-    public List<User> getUsersSupervisedBy(Long id) {
-        return this.userRepository.findBySupervisorId(id);
+    public List<UserDto> getUsersSupervisedBy(Long id) {
+        List<User> users = this.userRepository.findBySupervisorId(id);
+        return users.stream()
+            .map(user -> UserMapper.mapToDto(user))
+            .collect(Collectors.toList());
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public UserDto getUserByEmail(String email) {
         User user = userRepository.findByEmail(email);
-        return user;
+        return UserMapper.mapToDto(user);
     }
 
 	@Override
-	public User getUser(Long id) {
+	public UserDto getUser(Long id) {
         Optional<User> user = this.userRepository.findById(id);
-        return (user.isPresent()) ? user.get() : null;
+        return (user.isPresent()) ? UserMapper.mapToDto(user.get()) : null;
 	}
 
 	@Override
-	public Long updateUser(User user) {
-		this.userRepository.save(user);
+	public Long updateUser(UserDto user) {
+		this.userRepository.save(UserMapper.mapToUser(user));
         return user.getId();
 	}
 
@@ -55,8 +66,8 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Long saveUser(User user) {
-        this.userRepository.save(user);
+	public Long saveUser(UserDto user) {
+        this.userRepository.save(UserMapper.mapToUser(user));
         return user.getId();
 	}
 
