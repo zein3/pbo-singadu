@@ -39,7 +39,7 @@ public class Report {
 
     @Column(nullable = false)
     @Builder.Default
-    private boolean solved = false;
+    private Boolean solved = false;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "reporter_id", nullable = false)

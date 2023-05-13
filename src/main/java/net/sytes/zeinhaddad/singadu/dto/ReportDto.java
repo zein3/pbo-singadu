@@ -28,7 +28,7 @@ public class ReportDto {
     private String description;
 
     @NotNull
-    private boolean solved;
+    private Boolean solved;
 
     @NotNull
     private User reporter;

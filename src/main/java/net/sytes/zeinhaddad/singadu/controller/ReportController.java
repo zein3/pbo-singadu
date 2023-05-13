@@ -22,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.sytes.zeinhaddad.singadu.dto.ProblemTypeDto;
 import net.sytes.zeinhaddad.singadu.dto.ReportDto;
 import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.entity.ProblemType;
 import net.sytes.zeinhaddad.singadu.form.CreateReportForm;
+import net.sytes.zeinhaddad.singadu.mapper.ProblemTypeMapper;
 import net.sytes.zeinhaddad.singadu.mapper.UserMapper;
 import net.sytes.zeinhaddad.singadu.repository.ProblemTypeRepository;
+import net.sytes.zeinhaddad.singadu.service.IProblemTypeService;
 import net.sytes.zeinhaddad.singadu.service.IReportService;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,7 +48,7 @@ public class ReportController {
     private IUserService userService;
 
     @Autowired
-    private ProblemTypeRepository problemTypeRepository;
+    private IProblemTypeService problemTypeService;
 
     @GetMapping
     public List<ReportDto> index() {
@@ -80,16 +83,13 @@ public class ReportController {
         }
 
         UserDto reporter = userService.getUserByEmail(auth.getName());
-        Optional<ProblemType> problemType = problemTypeRepository.findById(form.getProblemTypeId());
-        if (problemType.isEmpty()) {
-            return 0l;
-        }
+        ProblemTypeDto problemType = problemTypeService.getProblemType(form.getProblemTypeId());
 
         ReportDto report = ReportDto.builder()
             .description(form.getDescription())
             .solved(false)
             .reporter(UserMapper.mapToUser(reporter))
-            .problemType(problemType.get())
+            .problemType(ProblemTypeMapper.mapToEntity(problemType))
             .build();
         return reportService.save(report);
     }
