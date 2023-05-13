@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import net.sytes.zeinhaddad.singadu.dto.ProblemTypeDto;
 import net.sytes.zeinhaddad.singadu.entity.ProblemType;
 import net.sytes.zeinhaddad.singadu.mapper.ProblemTypeMapper;
-import net.sytes.zeinhaddad.singadu.mapper.ReportMapper;
 import net.sytes.zeinhaddad.singadu.repository.ProblemTypeRepository;
 
 @Service
