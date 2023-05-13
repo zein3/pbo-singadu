@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.FieldError;
 
-import net.sytes.zeinhaddad.singadu.entity.ProblemType;
-import net.sytes.zeinhaddad.singadu.repository.ProblemTypeRepository;
+import net.sytes.zeinhaddad.singadu.dto.ProblemTypeDto;
+import net.sytes.zeinhaddad.singadu.service.ProblemTypeService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,24 +30,24 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Validated
 public class ProblemTypeController {
     @Autowired
-    private ProblemTypeRepository problemTypeRepository;
+    private ProblemTypeService problemTypeService;
 
     @GetMapping
-    public List<ProblemType> index() {
-        return this.problemTypeRepository.findAll();
+    public List<ProblemTypeDto> index() {
+        return problemTypeService.getAllProblemTypes();
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Long store(@Valid @RequestBody ProblemType problemType) {
-        this.problemTypeRepository.save(problemType);
+    public Long store(@Valid @RequestBody ProblemTypeDto problemType) {
+        this.problemTypeService.saveProblemType(problemType);
         return 1l;
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Long destroy(@PathVariable Long id) {
-        this.problemTypeRepository.deleteById(id);
+        this.problemTypeService.deleteProblemTypeById(id);
         return 1l;
     }
 
