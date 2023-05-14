@@ -11,6 +11,7 @@ public class ReportMapper {
             .solved(report.getSolved())
             .reporter(report.getReporter())
             .problemType(report.getProblemType())
+            .reportedDate(report.getReportedDate())
             .createdOn(report.getCreatedOn())
             .updatedOn(report.getUpdatedOn())
             .build();
@@ -25,6 +26,7 @@ public class ReportMapper {
             .solved(report.getSolved())
             .reporter(report.getReporter())
             .problemType(report.getProblemType())
+            .reportedDate(report.getReportedDate())
             .createdOn(report.getCreatedOn())
             .updatedOn(report.getUpdatedOn())
             .build();

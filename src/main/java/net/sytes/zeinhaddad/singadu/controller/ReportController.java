@@ -1,6 +1,7 @@
 package net.sytes.zeinhaddad.singadu.controller;
 
 import jakarta.validation.Valid;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,7 @@ public class ReportController {
             .solved(false)
             .reporter(UserMapper.mapToUser(reporter))
             .problemType(ProblemTypeMapper.mapToEntity(problemType))
+            .reportedDate(form.getReportedDate())
             .build();
         return reportService.save(report);
     }

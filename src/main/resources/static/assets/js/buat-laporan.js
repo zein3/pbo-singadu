@@ -43,4 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         select.appendChild(option);
       })
     })
+
+  document.querySelector("[name=reportedDate]").valueAsDate = new Date();
 })

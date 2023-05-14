@@ -16,6 +16,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,6 +52,10 @@ public class Report {
     @JoinColumn(name = "problem_type_id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private ProblemType problemType;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date reportedDate;
 
     @Column(nullable = false)
     @CreationTimestamp

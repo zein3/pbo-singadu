@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -35,6 +37,9 @@ public class ReportDto {
 
     @NotNull
     private ProblemType problemType;
+
+    @Temporal(TemporalType.DATE)
+    private Date reportedDate;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date createdOn;

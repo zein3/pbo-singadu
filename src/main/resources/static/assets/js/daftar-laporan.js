@@ -2,13 +2,13 @@ let reports = [];
 
 const openProblemDetailModal = (problemId) => {
   const problem = reports.find(report => report.id == problemId);
-  const createdOn = new Date(problem.createdOn).toLocaleDateString("id-ID", {
+  const createdOn = new Date(problem.reportedDate).toLocaleDateString("id-ID", {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+    // hour: '2-digit',
+    // minute: '2-digit',
   });
 
   const text = `
@@ -28,6 +28,7 @@ const openEditReportModal = (problemId) => {
   form.querySelector('[name="description"]').value = report.description;
   form.querySelector('[name="reporterId"]').value = report.reporter.id;
   form.querySelector('[name="reporterName"]').value = report.reporter.name;
+  form.querySelector('[name="reportedDate"]').valueAsDate = new Date(report.reportedDate);
   form.querySelector('[name="solved"]').checked = report.solved;
 
   const pTypeOptions = form.querySelector('[name="problemTypeId"]').children;
