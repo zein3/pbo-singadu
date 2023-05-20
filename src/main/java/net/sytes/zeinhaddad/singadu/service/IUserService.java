@@ -13,4 +13,6 @@ public interface IUserService {
     public Long updateUser(UserDto user);
     public void deleteUser(Long id);
     public Long saveUser(UserDto id);
+    public long getPencacahCount();
+    public long getPengawasCount();
 }

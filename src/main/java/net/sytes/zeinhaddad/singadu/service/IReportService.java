@@ -9,4 +9,5 @@ public interface IReportService {
     ReportDto getReport(Long id);
     Long save(ReportDto reportDto);
     Long destroy(Long id);
+    long count();
 }

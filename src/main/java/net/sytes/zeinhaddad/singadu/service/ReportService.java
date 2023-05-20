@@ -52,4 +52,9 @@ public class ReportService implements IReportService {
 		return 1l;
 	}
 
+    @Override
+    public long count() {
+        return this.reportRepository.count();
+    }
+
 }

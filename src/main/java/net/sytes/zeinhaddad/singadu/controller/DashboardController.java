@@ -1,5 +1,7 @@
 package net.sytes.zeinhaddad.singadu.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import net.sytes.zeinhaddad.singadu.dto.UserDto;
+import net.sytes.zeinhaddad.singadu.service.IReportService;
 import net.sytes.zeinhaddad.singadu.service.IUserService;
 
 @Controller
@@ -18,8 +21,19 @@ public class DashboardController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IReportService reportService;
+
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        long jumlahPencacah = userService.getPencacahCount();
+        long jumlahPengawas = userService.getPengawasCount();
+        long jumlahLaporan = reportService.count();
+
+        model.addAttribute("jumlah_pencacah", jumlahPencacah);
+        model.addAttribute("jumlah_pengawas", jumlahPengawas);
+        model.addAttribute("jumlah_laporan", jumlahLaporan);
+
         return "/index";
     }
 

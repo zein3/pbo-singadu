@@ -71,4 +71,14 @@ public class UserService implements IUserService {
         return user.getId();
 	}
 
+    @Override
+    public long getPencacahCount() {
+        return this.userRepository.countByRole("PENCACAH");
+    }
+
+    @Override
+    public long getPengawasCount() {
+        return this.userRepository.countByRole("PENGAWAS");
+    }
+
 }
