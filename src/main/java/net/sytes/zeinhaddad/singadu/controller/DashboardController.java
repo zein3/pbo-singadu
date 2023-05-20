@@ -1,7 +1,5 @@
 package net.sytes.zeinhaddad.singadu.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -29,10 +27,12 @@ public class DashboardController {
         long jumlahPencacah = userService.getPencacahCount();
         long jumlahPengawas = userService.getPengawasCount();
         long jumlahLaporan = reportService.count();
+        long jumlahLaporanSelesai = reportService.countSolved();
 
         model.addAttribute("jumlah_pencacah", jumlahPencacah);
         model.addAttribute("jumlah_pengawas", jumlahPengawas);
         model.addAttribute("jumlah_laporan", jumlahLaporan);
+        model.addAttribute("jumlah_laporan_selesai", jumlahLaporanSelesai);
 
         return "/index";
     }

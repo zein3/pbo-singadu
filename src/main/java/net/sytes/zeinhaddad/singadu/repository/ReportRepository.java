@@ -9,4 +9,5 @@ import net.sytes.zeinhaddad.singadu.entity.Report;
 public interface ReportRepository extends JpaRepository<Report, Long> {
     List<Report> findByReporterId(Long id);
     List<Report> findByProblemTypeId(Long id);
+    long countBySolved(Boolean solved);
 }

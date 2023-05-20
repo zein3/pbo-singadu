@@ -57,4 +57,9 @@ public class ReportService implements IReportService {
         return this.reportRepository.count();
     }
 
+    @Override
+    public long countSolved() {
+        return this.reportRepository.countBySolved(true);
+    }
+
 }

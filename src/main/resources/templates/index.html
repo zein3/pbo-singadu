@@ -14,6 +14,7 @@
 
   <script th:src="@{/assets/js/theme.js}"></script>
   <script th:src="@{/assets/js/sidebar.js}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 
   <meta id="csrf" th:value="${_csrf.token}">
 </head>
@@ -24,7 +25,7 @@
     <nav th:replace="~{fragments/sidebar :: sidebar}"></nav>
     <div class="content">
 
-      <div style="margin-bottom: 2rem;" class="welcome">
+      <div style="margin-bottom: 1rem;" class="welcome">
         <h3>
           Welcome <span th:text="${#authentication.principal.name}"></span>!
         </h3>
@@ -53,10 +54,45 @@
           <p><span th:text="${jumlah_pengawas}"></span> Pengawas</p>
         </div>
 
-        <div class="stat-grid-item" style="grid-column: 1 / span 3">Pie chart laporan</div>
+        <div class="stat-grid-item" style="grid-column: 1 / span 3;">
+          <!-- Pie chart laporan -->
+          <canvas id="reports-pie-chart" width="400" height="400" role="img" aria-label="Pie Chart Laporan">
+            <p><span id="jumlah-laporan-selesai" th:text="${jumlah_laporan_selesai}"></span> laporan sudah diselesaikan</p>
+            <p><span id="jumlah-laporan-belum-selesai" th:text="${jumlah_laporan - jumlah_laporan_selesai}"></span> laporan belum diselesaikan</p>
+          </canvas>
+        </div>
       </div>
 
     </div>
   </main>
+
+  <script>
+    (async function() {
+      const data = {
+        labels: [
+          'Masalah selesai',
+          'Masalah belum selesai'
+        ],
+        datasets: [{
+          data: [
+            document.querySelector('#jumlah-laporan-selesai').innerHTML,
+            document.querySelector('#jumlah-laporan-belum-selesai').innerHTML
+          ],
+          backgroundColor: [
+            'rgb(54, 162, 235)',
+            'rgb(255, 99, 132)'
+          ],
+          hoverOffset: 4
+        }]
+      };
+
+      const config = {
+        type: 'pie',
+        data: data,
+      };
+
+      new Chart(document.querySelector('#reports-pie-chart'), config)
+    })();
+  </script>
 </body>
 </html>

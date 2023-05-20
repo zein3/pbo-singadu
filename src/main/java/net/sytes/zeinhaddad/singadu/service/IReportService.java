@@ -10,4 +10,5 @@ public interface IReportService {
     Long save(ReportDto reportDto);
     Long destroy(Long id);
     long count();
+    long countSolved();
 }
