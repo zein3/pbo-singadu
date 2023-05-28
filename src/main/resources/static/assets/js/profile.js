@@ -32,6 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = Object.fromEntries(formData.entries());
     const csrfToken = document.querySelector("#csrf").getAttribute("value");
 
+    // validasi data
+    if (data.newPassword !== data.confirmPassword) {
+      document.querySelector("#confirmPasswordError").innerText = "Password tidak sama";
+      return;
+    } else {
+      document.querySelector("#confirmPasswordError").innerText = "";
+    }
+
     try {
       const response = await fetch("/api/v1/user/password", {
         method: 'PUT',
