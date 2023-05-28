@@ -299,6 +299,16 @@ textarea.form-input {
   color: var(--neutral-100);
 }
 
+.success.card {
+  background-color: var(--success-500);
+  color: var(--neutral-100);
+}
+
+.dark .success.card {
+  background-color: var(--success-600);
+  color: var(--neutral-100);
+}
+
 .card-header {
   display: flex;
   flex-direction: row;

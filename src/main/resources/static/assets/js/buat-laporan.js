@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.status == 200) {
-        alert("Success!");
+        document.querySelector("#success-modal-message").innerText = "Berhasil menambah laporan!";
+        document.querySelector("#success-modal").classList.add("open");
       } else {
         const error = await response.json();
         showError({ "error": "gagal menambahkan laporan" }, "add-report-error-alert");
