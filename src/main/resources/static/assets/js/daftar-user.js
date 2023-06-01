@@ -85,6 +85,21 @@ const getPengawas = async () => {
   return await response.json();
 }
 
+const updatePilihanPengawas = async () => {
+  const selectSupervisorDiv = document.querySelector("#edit-supervisor");
+  const selectSupervisorInput = selectSupervisorDiv.querySelector("select");
+  selectSupervisorInput.innerHTML = "";
+
+  const pengawas = await getPengawas();
+  pengawas.map(p => {
+    const option = document.createElement("option");
+    option.value = p.id;
+    option.innerText = p.name;
+
+    selectSupervisorInput.appendChild(option);
+  })
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   document.querySelector("#user-search").addEventListener("input", (e) => {
     const q = new RegExp(`.*${e.target.value}.*`, 'i');
@@ -99,14 +114,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     selectSupervisorInput.disabled = (e.target.value !== "PENCACAH");
   });
 
-  const pengawas = await getPengawas();
-  pengawas.map(p => {
-    const option = document.createElement("option");
-    option.value = p.id;
-    option.innerText = p.name;
-
-    selectSupervisorInput.appendChild(option);
-  })
-
+  await updatePilihanPengawas();
   await getUsersData();
 });

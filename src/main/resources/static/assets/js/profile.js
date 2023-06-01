@@ -56,10 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (result != 0) {
           alert("Successfully changed password");
         } else {
-          showError({"error": "Gagal mengubah password"}, "edit-password-error-alert");
+          showError({"error": "Password salah"}, "edit-password-error-alert");
         }
       } else {
-        showError({"error": "Gagal mengubah password"}, "edit-password-error-alert");
+        const error = await response.json();
+        showError(error, "edit-password-error-alert");
+        // showError({"error": "Gagal mengubah password"}, "edit-password-error-alert");
       }
     } catch(e) {
       if (typeof e == "string") {
