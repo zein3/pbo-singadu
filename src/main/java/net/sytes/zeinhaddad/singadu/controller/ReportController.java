@@ -2,6 +2,7 @@ package net.sytes.zeinhaddad.singadu.controller;
 
 import jakarta.validation.Valid;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -47,6 +50,8 @@ public class ReportController {
 
     @Autowired
     private IProblemTypeService problemTypeService;
+
+    private Logger logger = LoggerFactory.getLogger(ReportController.class);
 
     @GetMapping
     public List<ReportDto> index() {
@@ -119,6 +124,31 @@ public class ReportController {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public Map<String, String> handleValidationException(SQLIntegrityConstraintViolationException err) {
+        Map<String, String> errors = new HashMap<>();
+        int errorCode = err.getErrorCode();
+
+        switch(errorCode) {
+            default:
+                errors.put("Error code", String.valueOf(errorCode));
+                break;
+        }
+
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NullPointerException.class)
+    public Map<String, String> handleValidationException(NullPointerException err) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("Error", "The server encountered an error");
+        logger.warn(err.getMessage());
 
         return errors;
     }

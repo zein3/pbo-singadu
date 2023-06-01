@@ -229,7 +229,8 @@
               document.querySelector("#success-modal").classList.add("open");
             } else {
               const error = await response.json();
-              showError({ "error": "Gagal mengubah laporan" }, "edit-report-error-alert");
+              showError(error, "edit-report-error-alert");
+              // showError({ "error": "Gagal mengubah laporan" }, "edit-report-error-alert");
             }
           } catch (e) {
 

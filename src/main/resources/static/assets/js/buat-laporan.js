@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("#success-modal").classList.add("open");
       } else {
         const error = await response.json();
-        showError({ "error": "gagal menambahkan laporan" }, "add-report-error-alert");
+        showError(error, "add-report-error-alert");
+        // showError({ "error": "gagal menambahkan laporan" }, "add-report-error-alert");
       }
     } catch(e) {
       console.log(e);
