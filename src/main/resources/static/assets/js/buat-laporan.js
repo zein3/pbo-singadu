@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.status == 200) {
-        document.querySelector("#success-modal-message").innerText = "Berhasil menambah laporan!";
+        document.querySelector("#success-modal-message").innerText = "Berhasil menambah laporan";
         document.querySelector("#success-modal").classList.add("open");
       } else {
         const error = await response.json();

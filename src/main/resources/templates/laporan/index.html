@@ -171,14 +171,14 @@
         <div class="form-group">
           <label>Deskripsi Masalah</label>
           <div class="form-div">
-            <textarea name="description" rows="3" class="form-input"></textarea>
+            <textarea required name="description" rows="3" class="form-input"></textarea>
           </div>
         </div>
 
         <div class="form-group">
           <label>Tanggal Laporan</label>
           <div class="form-div">
-            <input type="date" name="reportedDate" class="form-input">
+            <input required type="date" name="reportedDate" class="form-input">
           </div>
         </div>
 
@@ -225,6 +225,8 @@
 
               getReports();
               document.querySelector("#edit-report-modal").classList.remove("open");
+              document.querySelector("#success-modal-message").innerText = "Berhasil mengubah laporan";
+              document.querySelector("#success-modal").classList.add("open");
             } else {
               const error = await response.json();
               showError({ "error": "Gagal mengubah laporan" }, "edit-report-error-alert");
@@ -236,6 +238,8 @@
       </script>
     </div>
   </div>
+
+  <div th:replace="~{fragments/modal :: success-modal}"></div>
 
 </body>
 </html>
