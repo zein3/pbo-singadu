@@ -207,7 +207,7 @@
           delete data.problemTypeId;
 
           try {
-            const response = await fetch("/api/v1/report", {
+            const response = await fetch(`/api/v1/report/${data.id}`, {
               method: "PUT",
               headers: {
                 'X-CSRF-TOKEN': csrfToken,

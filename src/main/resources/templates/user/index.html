@@ -184,7 +184,7 @@
           delete data.supervisor_id;
 
           try {
-            const response = await fetch("/api/v1/user", {
+            const response = await fetch(`/api/v1/user/${data.id}`, {
               method: "PUT",
               headers: {
                 'X-CSRF-TOKEN': csrfToken,

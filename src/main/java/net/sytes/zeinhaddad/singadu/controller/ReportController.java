@@ -98,9 +98,9 @@ public class ReportController {
         return reportService.save(report);
     }
 
-    @PutMapping
-    public Long update(@Valid @RequestBody ReportDto report) {
-        ReportDto r = reportService.getReport(report.getId());
+    @PutMapping("/{id}")
+    public Long update(@Valid @RequestBody ReportDto report, @PathVariable Long id) {
+        ReportDto r = reportService.getReport(id);
         if (r == null) {
             return 0l;
         }

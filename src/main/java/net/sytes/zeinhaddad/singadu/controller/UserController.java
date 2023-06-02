@@ -83,9 +83,9 @@ public class UserController {
         return userService.saveUser(userDto);
     }
 
-    @PutMapping
+    @PutMapping("/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Long update(@Valid @RequestBody UserDto user) {
+    public Long update(@Valid @RequestBody UserDto user, @PathVariable Long userId) {
         if (!user.getRole().equals("PENCACAH")) {
             user.setSupervisor(null);
         }
