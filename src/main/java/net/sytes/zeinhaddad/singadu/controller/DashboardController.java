@@ -34,40 +34,40 @@ public class DashboardController {
         model.addAttribute("jumlah_laporan", jumlahLaporan);
         model.addAttribute("jumlah_laporan_selesai", jumlahLaporanSelesai);
 
-        return "/index";
+        return "index";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "/login";
+        return "login";
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String user() {
-        return "/user/index";
+        return "user/index";
     }
 
     @GetMapping("/laporan")
     public String laporan() {
-        return "/laporan/index";
+        return "laporan/index";
     }
 
     @GetMapping("/laporan/create")
     public String createLaporan() {
-        return "/laporan/create";
+        return "laporan/create";
     }
 
     @GetMapping("/laporan/{id}/edit")
     @PreAuthorize("hasAnyAuthority('ADMIN', 'PENGAWAS')")
     public String editLaporan(@PathVariable Long id, Model model) {
-        return "/laporan/edit";
+        return "laporan/edit";
     }
 
     @GetMapping("/jenis-masalah")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String jenisMasalah() {
-        return "/ptype/index";
+        return "ptype/index";
     }
 
     @GetMapping("/my-profile")
@@ -76,6 +76,6 @@ public class DashboardController {
         UserDto user = userService.getUserByEmail(auth.getName());
 
         model.addAttribute("user", user);
-        return "/profile";
+        return "profile";
     }
 }
