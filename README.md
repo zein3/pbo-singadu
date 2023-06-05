@@ -9,7 +9,7 @@
 mvn clean package
 ```
 
-3. Run
+2. Run
 
 ```sh
 docker compose up -d
