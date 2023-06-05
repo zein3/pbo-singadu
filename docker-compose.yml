@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    image: "mysql:8.0.33"
+    ports:
+      - 3306:3306
+    networks:
+      - spring-network
+    environment:
+      MYSQL_DATABASE: singadu
+      MYSQL_USER: singadu
+      MYSQL_PASSWORD: singadu
+      MYSQL_ROOT_PASSWORD: root
+
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    networks:
+      - spring-network
+    environment:
+      - spring.datasource.url=jdbc:mysql://db:3306/singadu
+    depends_on:
+      - db
+
+
+networks:
+  spring-network:
