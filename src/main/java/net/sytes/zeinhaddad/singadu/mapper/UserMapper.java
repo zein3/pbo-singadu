@@ -5,12 +5,17 @@ import net.sytes.zeinhaddad.singadu.entity.User;
 
 public class UserMapper {
     public static User mapToUser(UserDto userDto) {
+        if (userDto == null) {
+            return null;
+        }
+
         User user = User.builder()
             .id(userDto.getId())
             .name(userDto.getName())
             .email(userDto.getEmail())
             .password(userDto.getPassword())
             .role(userDto.getRole())
+            .supervisor(UserMapper.mapToUser(userDto.getSupervisor()))
             .build();
 
         return user;

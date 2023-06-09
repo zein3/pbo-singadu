@@ -30,8 +30,6 @@ public class UserDto {
     @NotEmpty
     private String password;
 
-    private String confirmPassword;
-
     @NotNull
     @NotEmpty
     private String role;
