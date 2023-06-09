@@ -292,6 +292,12 @@
               updatePilihanPengawas();
               document.querySelector("#success-modal-message").innerText = "Berhasil membuat user";
               document.querySelector("#success-modal").classList.add("open");
+
+              const form = document.querySelector("#add-user-form");
+              form.querySelector("input[name='name']").value = "";
+              form.querySelector("input[name='email']").value = "";
+              form.querySelector("input[name='password']").value = "";
+              document.querySelector("#add-user-modal").classList.remove("open");
             } else {
               const error = await response.json();
               showError(error, "add-user-error-alert");
