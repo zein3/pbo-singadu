@@ -1,0 +1,31 @@
+@startuml ProblemTypeController
+
+class ProblemTypeController {
+    problemTypeService: IProblemTypeService
+    logger: Logger
+    index()
+    store(problemTypeDto: ProblemTypeDto)
+    destroy(id: Long)
+    handleValidationException(error)
+}
+
+interface IProblemTypeService {
+    getAllProblemTypes(): List<ProblemTypeDto>
+    getProblemType(id: Long): ProblemTypeDto
+    saveProblemType(pdto: ProblemTypeDto)
+    deleteProblemTypeById(id: Long)
+}
+class ProblemTypeService {
+    problemTypeRepository: ProblemTypeRepository
+}
+interface ProblemTypeRepository {
+
+}
+
+ProblemTypeController *-- IProblemTypeService
+ProblemTypeController *-- Logger
+
+IProblemTypeService <|.. ProblemTypeService
+ProblemTypeService *-- ProblemTypeRepository
+
+@enduml

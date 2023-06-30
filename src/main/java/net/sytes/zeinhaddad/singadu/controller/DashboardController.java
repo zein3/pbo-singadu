@@ -7,7 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import net.sytes.zeinhaddad.singadu.dto.UserDto;
 import net.sytes.zeinhaddad.singadu.service.IReportService;
@@ -56,12 +55,6 @@ public class DashboardController {
     @GetMapping("/laporan/create")
     public String createLaporan() {
         return "laporan/create";
-    }
-
-    @GetMapping("/laporan/{id}/edit")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PENGAWAS')")
-    public String editLaporan(@PathVariable Long id, Model model) {
-        return "laporan/edit";
     }
 
     @GetMapping("/jenis-masalah")

@@ -1,0 +1,63 @@
+@startuml DashboardController
+
+class DashboardController {
+    userService: IUserService
+    reportService: IReportService
+    index()
+    login()
+    user()
+    laporan()
+    createLaporan()
+    jenisMasalah()
+    profile()
+}
+
+interface IUserService {
+    getUsers(): List<UserDto>
+    getUsersWithRole(role: String): List<UserDto>
+    getUsersSupervisedBy(id: Long): List<UserDto>
+    getUserByEmail(email: String): UserDto
+    getUser(id: Long): UserDto
+    updateUser(user: UserDto)
+    deleteUser(id: Long)
+    saveUser(user: UserDto)
+    getPencacahCount(): Long
+    getPengawasCount(): Long
+}
+class UserService {
+    userRepository: UserRepository
+}
+interface UserRepository {
+    findByEmail(email: String): User
+    findByRole(role: String): List<User>
+    findBySupervisorId(id: Long): List<User>
+    countByRole(role: String): long
+}
+
+interface IReportService {
+    getReports(): List<ReportDto>
+    getReport(id: Long): ReportDto
+    save(reportDto: ReportDto)
+    destroy(id: Long)
+    count(): long
+    countSolved(): long
+}
+class ReportService {
+    reportRepository: ReportRepository
+}
+interface ReportRepository {
+    findByReporterId(id: Long): List<Report>
+    findByProblemTypeId(id: Long): List<Report>
+    countBySolved(solved: Boolean): long
+}
+
+DashboardController *-- IUserService
+DashboardController *-- IReportService
+
+IUserService <|.. UserService
+UserService *-- UserRepository
+
+IReportService <|.. ReportService
+ReportService *-- ReportRepository
+
+@enduml

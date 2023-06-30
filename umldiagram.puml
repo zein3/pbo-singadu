@@ -1,0 +1,45 @@
+@startuml Test Diagram
+
+'deklarasi package controller
+class DashboardController
+class ProblemTypeController
+class ReportController
+class SingaduErrorController
+class UserController
+
+'deklarasi package service dan repository
+interface IUserService
+class UserService
+interface UserRepository
+
+interface IReportService
+class ReportService
+interface ReportRepository
+
+interface IProblemTypeService
+class ProblemTypeService
+interface ProblemTypeRepository
+
+class JdbcUserDetailsService
+class JdbcUserDetail
+
+'relasi controller
+DashboardController *-- IUserService
+DashboardController *-- IReportService
+ProblemTypeController *-- IProblemTypeService
+UserController *-- IUserService
+ReportController *-- IUserService
+ReportController *-- IReportService
+ReportController *-- IProblemTypeService
+
+'relasi package service dan repository
+IUserService <|.. UserService
+UserService *-- UserRepository
+
+IReportService <|.. ReportService
+ReportService *-- ReportRepository
+
+IProblemTypeService <|.. ProblemTypeService
+ProblemTypeService *-- ProblemTypeRepository
+
+JdbcUserDetailsService *-- UserRepository

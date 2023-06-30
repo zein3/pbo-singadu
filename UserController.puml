@@ -1,0 +1,69 @@
+@startuml UserController
+
+class UserController {
+    userService: IUserService
+    encoder: PasswordEncoder
+    logger: Logger
+    index()
+    get(id: Long)
+    userWithRole(role: String)
+    supervisedBy(id: Long)
+    store(form: CreateAccountForm)
+    update(user: UserDto, userId: Long)
+    destroy(userId: Long)
+    updateProfile(form: ChangeProfileForm)
+    updatePassword(form: ChangePasswordForm)
+    handleValidationException(err)
+}
+class CreateAccountForm {
+    name: String
+    email: String
+    password: String
+    role: String
+}
+class ChangeProfileForm {
+    name: String
+    email: String
+}
+class ChangePasswordForm {
+    oldPassword: String
+    newPassword: String
+    confirmPassword: String
+}
+interface IUserService {
+    getUsers(): List<UserDto>
+    getUsersWithRole(role: String): List<UserDto>
+    getUsersSupervisedBy(id: Long): List<UserDto>
+    getUserByEmail(email: String): UserDto
+    getUser(id: Long): UserDto
+    updateUser(user: UserDto)
+    deleteUser(id: Long)
+    saveUser(user: UserDto)
+    getPencacahCount(): Long
+    getPengawasCount(): Long
+}
+class UserService {
+    userRepository: UserRepository
+}
+interface UserRepository {
+    findByEmail(email: String): User
+    findByRole(role: String): List<User>
+    findBySupervisorId(id: Long): List<User>
+    countByRole(role: String): long
+}
+class UserDto {
+    id: Long
+    name: String
+    email: String
+    password: String
+    role: String
+    supervisor: UserDto
+}
+
+UserController *-- IUserService
+UserController *-- PasswordEncoder
+UserController *-- Logger
+IUserService <|.. UserService
+UserService *-- UserRepository
+
+@enduml

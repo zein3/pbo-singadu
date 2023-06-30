@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.FieldError;
 
 import net.sytes.zeinhaddad.singadu.dto.ProblemTypeDto;
-import net.sytes.zeinhaddad.singadu.service.ProblemTypeService;
+import net.sytes.zeinhaddad.singadu.service.IProblemTypeService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Validated
 public class ProblemTypeController {
     @Autowired
-    private ProblemTypeService problemTypeService;
+    private IProblemTypeService problemTypeService;
 
     private Logger logger = LoggerFactory.getLogger(ProblemTypeController.class);
 
